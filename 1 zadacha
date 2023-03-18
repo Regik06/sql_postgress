@@ -5,29 +5,47 @@ create table IF NOT exists Genre (
 
 create table if not exists Artists (
 	id SERIAL primary key,
-	name VARCHAR(80) unique not null,
-	genre_id INTEGER not null references Genre(id)
+	name VARCHAR(80) unique not null
+);
+
+create table if not exists Genre_artist (
+	genre_id integer references Genre(id),
+	artist_id integer references Artists(id),
+	constraint ct primary key (genre_id, artist_id)
+
 );
 
 create table IF NOT exists Albums (
 	id SERIAL primary key,
 	name VARCHAR(80) unique not null,
-	year_issue INTEGER not null,
-	artists_id INTEGER not null references Artists(id)
+	year_issue INTEGER not null
+	constraint year_issue_min check (year_issue > 1800),
+	constraint year_issue_max check (year_issue <= 2023)
+);
+
+create table if not exists Artist_album (
+	artist_id integer references Artists(id),
+	album_id integer references Albums(id),
+	constraint aa primary key (artist_id, album_id)
 );
 
 create table IF NOT exists Tracks (
 	id SERIAL primary key,
-	name VARCHAR(60) not null,
+	name VARCHAR(60) unique not null,
 	duration INTEGER not NULL,
-	albums_id INTEGER not null references Albums(id)
+	albums_id INTEGER not null references Albums(id),
+	constraint duration_ check (duration > 60)
 );
+
 
 create table IF NOT exists Collections (
 	id SERIAL primary key,
-	name VARCHAR(60) not null,
-	tracks_id INTEGER not null references Tracks(id),
-	albums_id INTEGER not null references Albums(id)
+	name VARCHAR(60) unique not null
 );
 
 
+create table if not exists collection_track (
+	collection_id INTEGER references Collections(id),
+	track_id integer references  Tracks(id),
+	constraint col_tr primary key (collection_id, track_id)
+);

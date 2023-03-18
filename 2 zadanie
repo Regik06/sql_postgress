@@ -1,18 +1,6 @@
-create table if not exists Boss(
-	id SERIAL primary key,
-	name VARCHAR(60) unique not null
-);
-
-create table if not exists Departament (
-	id SERIAL primary key,
-	name VARCHAR(60) unique not null,
-	boss_id INTEGER not null references Boss(id)
-);
-
-
 create table if not exists Employee (
 	id SERIAL primary key,
 	name VARCHAR(60) unique not null,
-	departament_id INTEGER not null references Departament(id),
-	boss_id INTEGER not null references Boss(id)
+	departament VARCHAR(60) unique not null,
+	boss INTEGER not null references Employee(id)
 );
