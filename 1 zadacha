@@ -41,7 +41,7 @@ create table IF NOT exists Tracks (
 create table IF NOT exists Collections (
 	id SERIAL primary key,
 	name VARCHAR(60) unique not null,
-	year_issue INTEGER not null
+	year_issue INTEGER not null,
 	constraint year_issue_min check (year_issue > 1800),
 	constraint year_issue_max check (year_issue <= 2023)
 );
